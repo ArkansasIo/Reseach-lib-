@@ -1,4 +1,4 @@
-import mysql, { type Pool, type ResultSetHeader, type RowDataPacket } from "mysql2/promise";
+import mysql, { type Pool, type QueryResult, type RowDataPacket } from "mysql2/promise";
 import { env } from "../config/env.js";
 
 export const pool: Pool = mysql.createPool({
@@ -9,11 +9,11 @@ export const pool: Pool = mysql.createPool({
   password: env.MYSQL_PASSWORD,
   connectionLimit: env.MYSQL_CONNECTION_LIMIT,
   waitForConnections: true,
-  namedPlaceholders: true,
+  namedPlaceholders: false,
   charset: "utf8mb4"
 });
 
-export async function query<T extends RowDataPacket[] | ResultSetHeader>(
+export async function query<T extends QueryResult = RowDataPacket[]>(
   sql: string,
   params: unknown[] = []
 ): Promise<T> {
