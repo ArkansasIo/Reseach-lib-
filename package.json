@@ -1,14 +1,15 @@
 {
   "name": "neural-research-lib",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
-  "description": "TypeScript AI/neural-network research catalog backed by MySQL",
+  "description": "TypeScript research platform with MySQL, Wolfram|Alpha mathematics, AI/neural-network research, provenance, and scheduled jobs",
   "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js",
     "research": "tsx src/cli.ts research",
+    "math": "tsx src/cli.ts math",
     "jobs": "tsx src/cli.ts jobs",
     "db:migrate": "tsx src/cli.ts migrate",
     "lint": "tsc --noEmit"
