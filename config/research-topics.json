@@ -1,0 +1,21 @@
+{
+  "topics": [
+    "neural networks",
+    "deep learning",
+    "transformers",
+    "attention mechanisms",
+    "reinforcement learning",
+    "computer vision",
+    "natural language processing",
+    "graph neural networks",
+    "spiking neural networks",
+    "neural architecture search",
+    "optimization",
+    "representation learning",
+    "generative models",
+    "interpretability and mechanistic analysis",
+    "efficient inference and quantization"
+  ],
+  "sources": ["arxiv"],
+  "notes": "Topic list for future multi-query scheduling. Validate claims against the original papers."
+}
