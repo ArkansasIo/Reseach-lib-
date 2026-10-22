@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS research_sources (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   source_type ENUM('paper','web','dataset','repository','documentation','other') NOT NULL,
   title VARCHAR(500) NOT NULL,
-  url TEXT NULL,
+  url VARCHAR(2048) NULL,
   external_id VARCHAR(255) NULL,
   publisher VARCHAR(255) NULL,
   published_at DATETIME NULL,
@@ -19,14 +19,15 @@ CREATE TABLE IF NOT EXISTS research_sources (
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY uq_source_external (source_type, external_id),
   KEY idx_source_hash (content_hash),
-  FULLTEXT KEY ft_source_text (title, abstract, content(1000))
+  FULLTEXT KEY ft_source_text (title, abstract, content)
 );
 
 CREATE TABLE IF NOT EXISTS authors (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   orcid VARCHAR(64) NULL UNIQUE,
-  metadata JSON NULL
+  metadata JSON NULL,
+  UNIQUE KEY uq_author_name (name)
 );
 
 CREATE TABLE IF NOT EXISTS source_authors (
@@ -58,7 +59,7 @@ CREATE TABLE IF NOT EXISTS models (
   framework VARCHAR(100) NULL,
   parameter_count BIGINT UNSIGNED NULL,
   paper_source_id BIGINT UNSIGNED NULL,
-  repository_url TEXT NULL,
+  repository_url VARCHAR(2048) NULL,
   metadata JSON NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_model_paper FOREIGN KEY (paper_source_id) REFERENCES research_sources(id) ON DELETE SET NULL
@@ -70,7 +71,7 @@ CREATE TABLE IF NOT EXISTS datasets (
   version VARCHAR(100) NULL,
   modality VARCHAR(100) NULL,
   size_bytes BIGINT UNSIGNED NULL,
-  source_url TEXT NULL,
+  source_url VARCHAR(2048) NULL,
   metadata JSON NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
