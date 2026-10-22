@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neural Research Library</title>
+  <meta name="description" content="AI and neural-network research library powered by TypeScript and MySQL.">
+  <style>
+    :root{color-scheme:dark;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#07101b;color:#e8f0f8}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,#12304a 0,#07101b 42%,#050a11 100%);min-height:100vh}.wrap{max-width:1100px;margin:auto;padding:56px 24px}.badge{display:inline-block;padding:6px 10px;border:1px solid #31536e;border-radius:999px;color:#8ecbff;font-size:12px}.hero{padding:56px 0 36px}.hero h1{font-size:clamp(42px,7vw,76px);line-height:.98;margin:18px 0}.hero p{max-width:760px;color:#a9bdce;font-size:18px;line-height:1.7}.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-block;padding:12px 18px;border-radius:8px;background:#1484c6;color:white;text-decoration:none;font-weight:700}.btn.secondary{background:#172638;border:1px solid #31536e}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:30px 0}.card{background:rgba(12,27,42,.82);border:1px solid #203b52;border-radius:12px;padding:22px}.card h2{margin-top:0;font-size:18px}.card p,.card li{color:#9eb2c4;line-height:1.6}.code{background:#03070c;border:1px solid #203244;border-radius:10px;padding:18px;overflow:auto;color:#b9dfff}footer{padding-top:40px;color:#647b8d;font-size:13px}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <span class="badge">RESEARCH PLATFORM · v0.1.1</span>
+    <section class="hero">
+      <h1>Neural Research Library</h1>
+      <p>A TypeScript research platform for discovering, cataloging, indexing, and experimentally evaluating AI and neural-network research. MySQL provides the persistent research catalog while scheduled jobs automate source ingestion.</p>
+      <div class="buttons">
+        <a class="btn" href="https://github.com/ArkansasIo/Reseach-lib-">View Repository</a>
+        <a class="btn secondary" href="https://github.com/ArkansasIo/Reseach-lib-/blob/main/docs/ROADMAP.md">Roadmap</a>
+      </div>
+    </section>
+    <section class="grid">
+      <article class="card"><h2>Research Discovery</h2><p>Search and ingest AI papers from arXiv, with normalized titles, authors, abstracts, categories, identifiers, and source metadata.</p></article>
+      <article class="card"><h2>MySQL Research Graph</h2><p>Track papers, authors, tags, models, datasets, experiments, observations, and research-run history.</p></article>
+      <article class="card"><h2>Scheduled Jobs</h2><p>node-cron runs recurring research ingestion and provides a foundation for future cleanup, indexing, and analysis workers.</p></article>
+      <article class="card"><h2>AI Experiments</h2><p>Store hypotheses, model configurations, datasets, metrics, seeds, and runtime metadata for reproducible experiments.</p></article>
+    </section>
+    <h2>Research lifecycle</h2>
+    <pre class="code">discover → normalize → deduplicate → store → tag → analyze → experiment → observe</pre>
+    <h2>Local development</h2>
+    <pre class="code">git clone https://github.com/ArkansasIo/Reseach-lib-.git
+cd Reseach-lib-
+cp .env.example .env
+npm install
+docker compose up -d mysql
+npm run db:migrate
+npm run research</pre>
+    <footer>Research output should be validated against primary sources and reproducible experiments. Respect source terms, licensing, API limits, and robots policies.</footer>
+  </main>
+</body>
+</html>
