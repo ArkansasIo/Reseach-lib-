@@ -50,16 +50,11 @@ export async function saveDocument(doc: ResearchDocument): Promise<{ id: number;
     for (const [index, rawName] of (doc.authors ?? []).entries()) {
       const authorName = rawName.trim();
       if (!authorName) continue;
-
-      await connection.execute(
-        "INSERT INTO authors(name) SELECT ? WHERE NOT EXISTS (SELECT 1 FROM authors WHERE name=?)",
-        [authorName, authorName]
-      );
-      const [authorRows] = await connection.execute<IdRow[]>(
-        "SELECT id FROM authors WHERE name=? LIMIT 1",
+      const [authorInsert] = await connection.execute<InsertResult>(
+        "INSERT INTO authors(name) VALUES (?) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)",
         [authorName]
       );
-      const authorId = authorRows[0]!.id;
+      const authorId = authorInsert.insertId;
       await connection.execute(
         "INSERT INTO source_authors(source_id,author_id,author_order) VALUES (?,?,?) ON DUPLICATE KEY UPDATE author_order=VALUES(author_order)",
         [sourceId, authorId, index]
@@ -69,18 +64,13 @@ export async function saveDocument(doc: ResearchDocument): Promise<{ id: number;
     for (const rawTag of doc.tags ?? []) {
       const tagName = rawTag.trim().slice(0, 100);
       if (!tagName) continue;
-
-      await connection.execute(
+      const [tagInsert] = await connection.execute<InsertResult>(
         "INSERT INTO tags(name) VALUES (?) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)",
-        [tagName]
-      );
-      const [tagRows] = await connection.execute<IdRow[]>(
-        "SELECT id FROM tags WHERE name=? LIMIT 1",
         [tagName]
       );
       await connection.execute(
         "INSERT IGNORE INTO source_tags(source_id,tag_id) VALUES (?,?)",
-        [sourceId, tagRows[0]!.id]
+        [sourceId, tagInsert.insertId]
       );
     }
 
@@ -94,7 +84,6 @@ export async function saveDocument(doc: ResearchDocument): Promise<{ id: number;
   }
 }
 
-// Simple catalog search helper for a future API/CLI search command.
 export async function searchDocuments(term: string, limit = 25): Promise<IdRow[]> {
   const safeLimit = Math.max(1, Math.min(100, Math.floor(limit)));
   return query<IdRow[]>(
